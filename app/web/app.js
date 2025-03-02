@@ -5,7 +5,7 @@ async function login() {
     const password = document.getElementById("login-password").value;
 
     try {
-        const response = await fetch("https://7pfr7gnn4wp55t7phevqg6etdi0cjgqa.lambda-url.eu-north-1.on.aws/login", {
+        const response = await fetch("/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
