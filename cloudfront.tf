@@ -22,11 +22,6 @@ resource "aws_cloudfront_response_headers_policy" "custom_headers_policy" {
       override = true
       value    = "text/html"
     }
-    items {
-      header   = "Content-Security-Policy"
-      override = true
-      value    = "script-src 'self' https://cdn.tailwindcss.com;"
-    }
   }
 }
 
