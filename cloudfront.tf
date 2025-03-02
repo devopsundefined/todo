@@ -21,7 +21,7 @@ resource "aws_cloudfront_response_headers_policy" "custom_headers_policy" {
       header   = "Content-Type"
       override = true
       value    = "text/html"
-    },
+    }
     items {
       header   = "Content-Security-Policy"
       override = true
