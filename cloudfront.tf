@@ -122,8 +122,8 @@ resource "aws_cloudfront_distribution" "todo" {
     response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_js.id
 
     min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
+    default_ttl            = 60
+    max_ttl                = 3600
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
   }
@@ -144,7 +144,7 @@ resource "aws_cloudfront_distribution" "todo" {
 
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
+    #response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
@@ -168,7 +168,7 @@ resource "aws_cloudfront_distribution" "todo" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
+    #response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
@@ -192,7 +192,7 @@ resource "aws_cloudfront_distribution" "todo" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
+    #response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
@@ -216,7 +216,7 @@ resource "aws_cloudfront_distribution" "todo" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
+    #response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
