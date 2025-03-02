@@ -13,14 +13,38 @@ resource "aws_cloudfront_origin_request_policy" "static_html_request_policy" {
   
 }
 
-resource "aws_cloudfront_response_headers_policy" "custom_headers_policy" {
-  name = "custom-headers-policy"
+resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_html" {
+  name = "custom-headers-policy-html"
 
   custom_headers_config {
     items {
       header   = "Content-Type"
       override = true
       value    = "text/html"
+    }
+  }
+  security_headers_config {
+    content_security_policy {
+      content_security_policy = "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+      override = true
+    }
+  }
+}
+
+resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_js" {
+  name = "custom-headers-policy-js"
+
+  custom_headers_config {
+    items {
+      header   = "Content-Type"
+      override = true
+      value    = "text/javascript"
+    }
+  }
+  security_headers_config {
+    content_security_policy {
+      content_security_policy = "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+      override = true
     }
   }
 }
@@ -70,7 +94,7 @@ resource "aws_cloudfront_distribution" "todo" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 3600
@@ -79,7 +103,31 @@ resource "aws_cloudfront_distribution" "todo" {
     viewer_protocol_policy = "redirect-to-https"
   }
 
-  # Cache behavior with precedence 0
+  ordered_cache_behavior {
+    path_pattern     = "*.js"
+    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "html_content"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Authorization"]
+
+      cookies {
+        forward = "all"
+      }
+
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_js.id
+
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
   ordered_cache_behavior {
     path_pattern     = "/login"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
@@ -96,7 +144,7 @@ resource "aws_cloudfront_distribution" "todo" {
 
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
@@ -105,7 +153,7 @@ resource "aws_cloudfront_distribution" "todo" {
     viewer_protocol_policy = "redirect-to-https"
   }
 
-    ordered_cache_behavior {
+  ordered_cache_behavior {
     path_pattern     = "/register"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["GET", "HEAD"]
@@ -120,7 +168,7 @@ resource "aws_cloudfront_distribution" "todo" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
@@ -129,7 +177,7 @@ resource "aws_cloudfront_distribution" "todo" {
     viewer_protocol_policy = "redirect-to-https"
   }
 
-    ordered_cache_behavior {
+  ordered_cache_behavior {
     path_pattern     = "/todo"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["GET", "HEAD"]
@@ -144,7 +192,7 @@ resource "aws_cloudfront_distribution" "todo" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
@@ -153,7 +201,7 @@ resource "aws_cloudfront_distribution" "todo" {
     viewer_protocol_policy = "redirect-to-https"
   }
 
-    ordered_cache_behavior {
+  ordered_cache_behavior {
     path_pattern     = "/todos"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["GET", "HEAD"]
@@ -168,7 +216,7 @@ resource "aws_cloudfront_distribution" "todo" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
 
     min_ttl                = 0
     default_ttl            = 0
