@@ -42,17 +42,20 @@ async function login() {
             body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
-        if (!response.ok) {
-            showAlert(data.message || `Error: ${response.status}`, "error");
+        let data;
+        try {
+            data = await response.json(); // Try to parse JSON
+        } catch (error) {
+            console.error("JSON Parsing Error:", error);
+            data = { message: "Unexpected server response" };
         }
+
         token = data.token;
         document.getElementById("todo-section").classList.remove("hidden");
         fetchTodos();
     } catch (error) {
+        showAlert(data.message || "Login failed. Please try again later.", "error");
         console.error("Login failed", error);
-        showAlert("Login failed. Please try again later.", "error");
-
     }
 }
 
@@ -67,16 +70,23 @@ async function register() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password, email })
         });
-        const responseData = await response.json(); // Parse JSON response
+
+        let responseData;
+        
+        try {
+            responseData = await response.json(); // Try to parse JSON
+        } catch (error) {
+            console.error("JSON Parsing Error:", error);
+            responseData = { message: "Unexpected server response" };
+        }
 
         if (response.ok) {
             showAlert(responseData.message || "Registration successful!", "success");
-        } else {
-            showAlert(responseData.message || `Error: ${response.status}`, "error");
         }
+
     } catch (error) {
+        showAlert(responseData.message || "Registration failed. Please try again later.", "error");
         console.error("Registration failed", error);
-        showAlert("Registration failed. Please try again later.", "error");
     }
 }
 
@@ -94,8 +104,8 @@ async function addTodo() {
         });
         fetchTodos();
     } catch (error) {
-        console.error("Failed to add todo", error);
         showAlert("Adding Todo failed. Please try again later.", "error");
+        console.error("Failed to add todo", error);
     }
 }
 
@@ -104,10 +114,16 @@ async function fetchTodos() {
         const response = await fetch("/todos", {
             headers: { "Authorization": `Bearer ${token}` }
         });
-        const todos = await response.json();
-        if (!response.ok) {
-            showAlert(todos.message || `Error: ${response.status}`, "error");
+
+        let todos;
+
+        try {
+            todos = await response.json(); // Try to parse JSON
+        } catch (error) {
+            console.error("JSON Parsing Error:", error);
+            todos = { message: "Unexpected server response while fetching todos" };
         }
+
         const todoList = document.getElementById("todo-list");
         todoList.innerHTML = "";
         todos.forEach(todo => {
@@ -117,8 +133,8 @@ async function fetchTodos() {
             todoList.appendChild(li);
         });
     } catch (error) {
+        showAlert(todos.message || "Fetching Todos failed. Please try again later.", "error");
         console.error("Failed to fetch todos", error);
-        showAlert("Fetching Todos failed. Please try again later.", "error");
     }
 }
 
