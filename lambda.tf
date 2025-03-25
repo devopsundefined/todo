@@ -26,6 +26,8 @@ resource "aws_iam_role_policy_attachment" "api_lambda_function_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+
+
 resource "aws_lambda_function" "api_lambda" {
   function_name = "api-lambda"
   role = aws_iam_role.api_lambda_function_role.arn
@@ -33,6 +35,13 @@ resource "aws_lambda_function" "api_lambda" {
   filename = data.archive_file.api_lambda_function.output_path
   source_code_hash = data.archive_file.api_lambda_function.output_base64sha256
   runtime = "nodejs22.x"
+  environment {
+    variables = {
+      USER_POOL_ID = aws_cognito_user_pool.app.id,
+      CLIENT_ID = aws_cognito_user_pool_client.client.id
+      REGION = var.region
+    }
+  }
 }
 
 resource "aws_lambda_function_url" "api_lambda" {

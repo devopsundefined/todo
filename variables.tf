@@ -1,6 +1,9 @@
 variable "landscape" {
-  default = "dev"
-  
+  default = "dev" 
+}
+
+variable "region" {
+  default = "eu-north-1"
 }
 
 variable "html_cf_origin" {

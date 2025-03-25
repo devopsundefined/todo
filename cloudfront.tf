@@ -31,6 +31,7 @@ resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_html" {
   }
 }
 
+
 resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_js" {
   name = "custom-headers-policy-js"
 
@@ -116,7 +117,6 @@ resource "aws_cloudfront_distribution" "todo" {
       cookies {
         forward = "all"
       }
-
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_js.id
