@@ -8,29 +8,28 @@ function showAlert(message, type = "success") {
 
     // Set styles based on alert type
     if (type === "success") {
-        alertBox.className = "fixed top-5 right-5 p-4 rounded-lg shadow-lg text-white bg-green-500 opacity-0 transform translate-y-[-20px] transition-all duration-300";
+        alertBox.className = "fixed top-1/2 left-1/2 p-4 rounded-lg shadow-lg text-white bg-green-500 opacity-0 transform -translate-x-1/2 -translate-y-1/2 scale-90 transition-all duration-300";
     } else if (type === "error") {
-        alertBox.className = "fixed top-5 right-5 p-4 rounded-lg shadow-lg text-white bg-red-500 opacity-0 transform translate-y-[-20px] transition-all duration-300";
+        alertBox.className = "fixed top-1/2 left-1/2 p-4 rounded-lg shadow-lg text-white bg-red-500 opacity-0 transform -translate-x-1/2 -translate-y-1/2 scale-90 transition-all duration-300";
     }
 
-    // Show with fade-in animation
+    // Show with fade-in and scale-up animation
     setTimeout(() => {
         alertBox.classList.remove("hidden");
-        alertBox.classList.add("opacity-100", "translate-y-0");
+        alertBox.classList.add("opacity-100", "scale-100");
     }, 10);
 
-    // Hide with fade-out animation after 3 seconds
+    // Hide with fade-out and scale-down after 3 seconds
     setTimeout(() => {
-        alertBox.classList.remove("opacity-100", "translate-y-0");
-        alertBox.classList.add("opacity-0", "translate-y-[-20px]");
-        
+        alertBox.classList.remove("opacity-100", "scale-100");
+        alertBox.classList.add("opacity-0", "scale-90");
+
         // Hide completely after animation ends
         setTimeout(() => {
             alertBox.classList.add("hidden");
-        }, 300); // Match the duration-300
+        }, 300);
     }, 3000);
 }
-
 
 async function login() {
     const username = document.getElementById("login-username").value;
@@ -45,13 +44,15 @@ async function login() {
 
         const data = await response.json();
         if (!response.ok) {
-            showAlert(responseData.message || `Error: ${response.status}`, "error");
+            showAlert(data.message || `Error: ${response.status}`, "error");
         }
         token = data.token;
         document.getElementById("todo-section").classList.remove("hidden");
         fetchTodos();
     } catch (error) {
         console.error("Login failed", error);
+        showAlert("Login failed. Please try again later.", "error");
+
     }
 }
 
@@ -75,7 +76,7 @@ async function register() {
         }
     } catch (error) {
         console.error("Registration failed", error);
-        showAlert("An unexpected error occurred. Please try again later.", "error");
+        showAlert("Registration failed. Please try again later.", "error");
     }
 }
 
@@ -94,6 +95,7 @@ async function addTodo() {
         fetchTodos();
     } catch (error) {
         console.error("Failed to add todo", error);
+        showAlert("Adding Todo failed. Please try again later.", "error");
     }
 }
 
@@ -104,7 +106,7 @@ async function fetchTodos() {
         });
         const todos = await response.json();
         if (!response.ok) {
-            showAlert(responseData.message || `Error: ${response.status}`, "error");
+            showAlert(todos.message || `Error: ${response.status}`, "error");
         }
         const todoList = document.getElementById("todo-list");
         todoList.innerHTML = "";
@@ -116,6 +118,7 @@ async function fetchTodos() {
         });
     } catch (error) {
         console.error("Failed to fetch todos", error);
+        showAlert("Fetching Todos failed. Please try again later.", "error");
     }
 }
 
