@@ -54,7 +54,8 @@ async function login() {
         if (response.ok) {
             showAlert(data.message || "Login successful!", "success");
         } else {
-            showAlert(data.message || `Error ${response.status}: ${response.statusText}`, "error");
+            showAlert(data.message || "Login failed.", "error");
+            return;
         }
 
         if (data.token) {
@@ -64,10 +65,11 @@ async function login() {
         } else {
             showAlert("Failed getting auth token.", "error");
             console.error("Login failed. Auth token missing in response", error);
+            return;
         }
 
     } catch (error) {
-        showAlert(data.message || "Login failed. Please try again later.", "error");
+        showAlert("Failed logging in.", "error");
         console.error("Login failed", error);
     }
 }
@@ -95,11 +97,14 @@ async function register() {
 
         if (response.ok) {
             showAlert(responseData.message || "Registration successful!", "success");
+        } else {
+            showAlert(responseData.message || "Registration failed!", "error");
+            return;
         }
 
     } catch (error) {
-        showAlert(responseData.message || "Registration failed. Please try again later.", "error");
         console.error("Registration failed", error);
+        showAlert("Registration failed. Please try again later.", "error");
     }
 }
 
@@ -117,8 +122,8 @@ async function addTodo() {
         });
         fetchTodos();
     } catch (error) {
-        showAlert("Adding Todo failed. Please try again later.", "error");
         console.error("Failed to add todo", error);
+        showAlert("Adding Todo failed. Please try again later.", "error");
     }
 }
 
@@ -146,8 +151,8 @@ async function fetchTodos() {
             todoList.appendChild(li);
         });
     } catch (error) {
-        showAlert(todos.message || "Fetching Todos failed. Please try again later.", "error");
         console.error("Failed to fetch todos", error);
+        showAlert("Fetching Todos failed. Please try again later.", "error");
     }
 }
 
