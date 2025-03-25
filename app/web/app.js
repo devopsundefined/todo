@@ -80,7 +80,7 @@ async function register() {
     const email = document.getElementById("register-email").value;
 
     try {
-        await fetch("/register", {
+        const response = await fetch("/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password, email })
@@ -98,6 +98,7 @@ async function register() {
         if (response.ok) {
             showAlert(responseData.message || "Registration successful!", "success");
         } else {
+            console.error("response not ok", error);
             showAlert(responseData.error || "Registration failed!", "error");
             return;
         }
