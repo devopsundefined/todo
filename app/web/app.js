@@ -145,12 +145,20 @@ async function fetchTodos() {
 
         const todoList = document.getElementById("todo-list");
         todoList.innerHTML = "";
-        todos.forEach(todo => {
+        if (Array.isArray(todos)) {
+            todos.forEach(todo => {
+                const li = document.createElement("li");
+                li.textContent = todo.content;
+                li.classList.add("border-b", "p-2");
+                todoList.appendChild(li);
+            });
+        } else
+        {
             const li = document.createElement("li");
-            li.textContent = todo.content;
+            li.textContent = "No Todos yet!";
             li.classList.add("border-b", "p-2");
             todoList.appendChild(li);
-        });
+        }
     } catch (error) {
         console.error("Failed to fetch todos", error);
         showAlert("Fetching Todos failed. Please try again later.", "error");
