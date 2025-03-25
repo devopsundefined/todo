@@ -50,9 +50,22 @@ async function login() {
             data = { message: "Unexpected server response" };
         }
 
-        token = data.token;
-        document.getElementById("todo-section").classList.remove("hidden");
-        fetchTodos();
+        // If response is successful
+        if (response.ok) {
+            showAlert(data.message || "Login successful!", "success");
+        } else {
+            showAlert(data.message || `Error ${response.status}: ${response.statusText}`, "error");
+        }
+
+        if (data.token) {
+            token = data.token;
+            document.getElementById("todo-section").classList.remove("hidden");
+            fetchTodos();
+        } else {
+            showAlert("Failed getting auth token.", "error");
+            console.error("Login failed. Auth token missing in response", error);
+        }
+
     } catch (error) {
         showAlert(data.message || "Login failed. Please try again later.", "error");
         console.error("Login failed", error);
