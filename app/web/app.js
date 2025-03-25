@@ -54,7 +54,7 @@ async function login() {
         if (response.ok) {
             showAlert(data.message || "Login successful!", "success");
         } else {
-            showAlert(data.message || "Login failed.", "error");
+            showAlert(data.error || "Login failed.", "error");
             return;
         }
 
@@ -98,7 +98,7 @@ async function register() {
         if (response.ok) {
             showAlert(responseData.message || "Registration successful!", "success");
         } else {
-            showAlert(responseData.message || "Registration failed!", "error");
+            showAlert(responseData.error || "Registration failed!", "error");
             return;
         }
 
