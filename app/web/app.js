@@ -98,7 +98,7 @@ async function register() {
         if (response.ok) {
             showAlert(responseData.message || "Registration successful!", "success");
         } else {
-            console.error("response not ok", error);
+            console.error("response not ok", responseData.error);
             showAlert(responseData.error || "Registration failed!", "error");
             return;
         }
