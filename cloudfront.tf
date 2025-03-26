@@ -50,6 +50,24 @@ resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_js" {
   }
 }
 
+resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_css" {
+  name = "custom-headers-policy-js"
+
+  custom_headers_config {
+    items {
+      header   = "Content-Type"
+      override = true
+      value    = "text/css"
+    }
+  }
+  security_headers_config {
+    content_security_policy {
+      content_security_policy = "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+      override = true
+    }
+  }
+}
+
 resource "aws_cloudfront_distribution" "todo" {
   origin {
     domain_name              = var.html_cf_origin
@@ -120,6 +138,30 @@ resource "aws_cloudfront_distribution" "todo" {
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_js.id
+
+    min_ttl                = 0
+    default_ttl            = 60
+    max_ttl                = 3600
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+    ordered_cache_behavior {
+    path_pattern     = "*.css"
+    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "html_content"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Authorization"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_css.id
 
     min_ttl                = 0
     default_ttl            = 60
@@ -203,6 +245,30 @@ resource "aws_cloudfront_distribution" "todo" {
 
   ordered_cache_behavior {
     path_pattern     = "/todo/*/complete"
+    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "api"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Authorization"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    #response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
+
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  ordered_cache_behavior {
+    path_pattern     = "/todo/*"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "api"

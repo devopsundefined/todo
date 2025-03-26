@@ -172,6 +172,44 @@ async function addTodo() {
     }
 }
 
+async function deleteTodo(todoId, event) {
+    // Get the button element properly
+    const deleteBtn = event.currentTarget;
+    
+    // Confirm deletion
+    if (!confirm('Are you sure you want to delete this todo?')) {
+        return;
+    }
+
+    // Disable button and show loading state
+    deleteBtn.disabled = true;
+    const originalText = deleteBtn.textContent;
+    deleteBtn.textContent = 'Deleting...';
+
+    try {
+        const response = await fetch(`/todo/${todoId}`, {
+            method: 'DELETE',
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete todo');
+        }
+
+        showAlert('Todo deleted!', 'success');
+        fetchTodos();
+    } catch (error) {
+        console.error("Delete error:", error);
+        showAlert(error.message, "error");
+    } finally {
+        // Reset button only if it still exists (in case DOM changed)
+        if (deleteBtn.isConnected) {
+            deleteBtn.disabled = false;
+            deleteBtn.textContent = originalText;
+        }
+    }
+}
+
 async function fetchTodos() {
     try {
         const response = await fetch("/todos", {
@@ -200,18 +238,20 @@ async function fetchTodos() {
                     year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
                 });
                 
-                // Inside the fetchTodos function, modify the li.innerHTML line:
                 li.innerHTML = `
-                    <div class="flex-1">
-                        <span class="${todo.completed ? 'line-through text-gray-400' : ''}">${todo.content}</span>
-                        ${todo.due_date ? `<br><span class='text-red-500 text-sm'>Due: ${new Date(todo.due_date).toLocaleDateString()}</span>` : ''}
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class='text-gray-500 text-sm'>${createdDate}</span>
-                        <button onclick="toggleComplete('${todo.id}')" class="ml-2 px-3 py-1 ${todo.completed ? 'bg-green-600' : 'bg-gray-600'} text-white rounded-lg text-sm">
-                            ${todo.completed ? 'Completed' : 'Mark Complete'}
-                        </button>
-                    </div>`;
+                <div class="flex-1">
+                    <span class="${todo.completed ? 'line-through text-gray-400' : ''}">${todo.content}</span>
+                    ${todo.due_date ? `<br><span class='text-red-500 text-sm'>Due: ${new Date(todo.due_date).toLocaleDateString()}</span>` : ''}
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class='text-gray-500 text-sm'>${createdDate}</span>
+                    <button onclick="toggleComplete('${todo.id}')" class="ml-2 px-3 py-1 ${todo.completed ? 'bg-green-600' : 'bg-gray-600'} text-white rounded-lg text-sm">
+                        ${todo.completed ? 'Completed' : 'Mark Complete'}
+                    </button>
+                    <button onclick="deleteTodo('${todo.id}')" class="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">
+                        Delete
+                    </button>
+                </div>`;
 
                 todoList.appendChild(li);
             });
