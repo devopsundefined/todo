@@ -149,15 +149,21 @@ async function fetchTodos() {
 
         const todoList = document.getElementById("todo-list");
         todoList.innerHTML = "";
+        
         if (Array.isArray(todos)) {
             todos.forEach(todo => {
                 const li = document.createElement("li");
-                li.textContent = todo.content;
-                li.classList.add("border-b", "p-2");
+                li.classList.add("border-b", "p-2", "flex", "justify-between", "items-center");
+                
+                // Format the created date
+                const createdDate = new Date(todo.created_at).toLocaleDateString("en-US", {
+                    year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
+                });
+                
+                li.innerHTML = `<span>${todo.content}</span> <span class='text-gray-500 text-sm'>${createdDate}</span>`;
                 todoList.appendChild(li);
             });
-        } else
-        {
+        } else {
             const li = document.createElement("li");
             li.textContent = "No Todos yet!";
             li.classList.add("border-b", "p-2");

@@ -8,13 +8,13 @@
     <script type='text/javascript' src="app.js" defer></script>
     <script src="tailwind.min.js"></script>
 </head>
-<body class="flex flex-col items-center gap-4 p-6 bg-gray-100">
+<body class="flex flex-col items-center gap-4 p-6 bg-gray-100 bg-cover bg-center" style="background-image: url('images/background.jpg');">
 
     <!-- Header -->
     <div id="header" class="hidden w-full bg-blue-500 bg-opacity-80 text-white p-4 flex justify-between items-center pr-6 text-lg font-bold rounded-lg">
         <span></span>
         <div class="relative">
-            <button id="user-menu-button" class="focus:outline-none">Hello, <span id="username" class="ml-2"></span></button>
+            <button id="user-menu-button" class="bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg focus:outline-none">Hello, <span id="username" class="ml-2"></span></button>
             <div id="user-menu" class="hidden absolute right-0 mt-2 w-32 bg-white text-black shadow-lg rounded-lg">
                 <button onclick="logout()" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Logout</button>
             </div>
