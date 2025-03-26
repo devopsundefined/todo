@@ -17,3 +17,15 @@
     from { transform: translateY(-10px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
+
+  /*smooth animation for logout button*/
+  #user-menu {
+    transition: all 0.2s ease;
+    transform-origin: top right;
+    transform: scale(0.95);
+    opacity: 0;
+}
+#user-menu:not(.hidden) {
+    transform: scale(1);
+    opacity: 1;
+}
