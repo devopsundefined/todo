@@ -22,23 +22,27 @@
     </div>
 
     <!-- Auth Section (Login & Register side by side) -->
-    <div id="auth-section" class="flex gap-6">
+    <div id="auth-section" class="flex gap-6 items-stretch">
         
         <!-- Login Form -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-80">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md w-80 text-white flex flex-col h-full">
             <h2 class="text-xl font-bold">Login</h2>
-            <input id="login-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2">
-            <input id="login-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2">
-            <button onclick="login()" class="bg-blue-500 text-white p-2 w-full rounded mt-4">Login</button>
+            <input id="login-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2 bg-gray-700 text-white border-gray-600">
+            <input id="login-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2 bg-gray-700 text-white border-gray-600">
+            <button onclick="login()" class="bg-blue-500 hover:bg-blue-600 text-white p-2 w-full rounded mt-4 mt-auto transition-colors duration-200">  <!-- Added mt-auto -->
+                Login
+            </button>
         </div>
 
         <!-- Register Form -->
-        <div class="bg-white p-6 rounded-lg shadow-md w-80">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md w-80 text-white flex flex-col h-full">
             <h2 class="text-xl font-bold">Register</h2>
-            <input id="register-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2">
-            <input id="register-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2">
-            <input id="register-email" type="email" placeholder="Email" class="w-full p-2 border rounded mt-2">
-            <button onclick="register()" class="bg-green-500 text-white p-2 w-full rounded mt-4">Register</button>
+            <input id="register-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2 bg-gray-700 text-white border-gray-600">
+            <input id="register-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2 bg-gray-700 text-white border-gray-600">
+            <input id="register-email" type="email" placeholder="Email" class="w-full p-2 border rounded mt-2 bg-gray-700 text-white border-gray-600">
+            <button onclick="register()" class="bg-green-500 hover:bg-green-600 text-white p-2 w-full rounded mt-4 mt-auto transition-colors duration-200">  <!-- Added mt-auto -->
+                Register
+            </button>
         </div>
     </div>
 
