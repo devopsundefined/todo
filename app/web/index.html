@@ -13,9 +13,11 @@
     <!-- Header -->
     <div id="header" class="hidden w-full bg-blue-500 bg-opacity-80 text-white p-4 flex justify-between items-center pr-6 text-lg font-bold rounded-lg">
         <span></span>
-        <div>
-            Hello, <span id="username" class="ml-2"></span>
-            <button onclick="logout()" class="ml-4 bg-red-500 text-white px-3 py-1 rounded">Logout</button>
+        <div class="relative">
+            <button id="user-menu-button" class="focus:outline-none">Hello, <span id="username" class="ml-2"></span></button>
+            <div id="user-menu" class="hidden absolute right-0 mt-2 w-32 bg-white text-black shadow-lg rounded-lg">
+                <button onclick="logout()" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Logout</button>
+            </div>
         </div>
     </div>
 
@@ -41,10 +43,10 @@
     </div>
 
     <!-- Todo Section (Only visible after login) -->
-    <div id="todo-section" class="hidden bg-white p-6 rounded-lg shadow-md w-96">
+    <div id="todo-section" class="hidden bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
         <h2 class="text-xl font-bold">Add Todo</h2>
         <input id="todo-content" type="text" placeholder="Todo Content" class="w-full p-2 border rounded mt-2">
-        <button onclick="addTodo()" class="bg-purple-500 text-white p-2 w-full rounded mt-4">Add Todo</button>
+        <button onclick="addTodo()" class="bg-purple-500 text-white p-2 rounded mt-4">Add Todo</button>
 
         <h3 class="text-lg font-bold mt-4">Todos</h3>
         <ul id="todo-list" class="list-disc pl-5"></ul>
@@ -54,5 +56,11 @@
     <div id="alert-box" class="hidden fixed top-1/2 left-1/2 p-4 rounded-lg shadow-lg text-white opacity-0 transform -translate-x-1/2 -translate-y-1/2 scale-90 transition-all duration-300">
         <span id="alert-message"></span>
     </div>
+
+    <script>
+        document.getElementById("user-menu-button").addEventListener("click", function() {
+            document.getElementById("user-menu").classList.toggle("hidden");
+        });
+    </script>
 </body>
 </html>
