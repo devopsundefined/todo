@@ -1,5 +1,13 @@
 let token = null;
 
+// Add event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('delete-cancel').addEventListener('click', hideDeleteModal);
+    document.getElementById('delete-confirm').addEventListener('click', deleteTodo);
+  });
+
+let currentTodoIdToDelete = null;
+
 function showAlert(message, type = "success") {
     const alertBox = document.getElementById("alert-box");
     const alertMessage = document.getElementById("alert-message");
@@ -140,7 +148,6 @@ async function addTodo() {
     const due_date = document.getElementById("todo-date").value;
     const created_at = new Date().toISOString();
 
-
     if (!content) {
         showAlert("Todo content cannot be empty", "error");
         return;
@@ -172,50 +179,45 @@ async function addTodo() {
     }
 }
 
-async function deleteTodo(event, todoId) {
-    // Safely get the button element
-    const deleteBtn = event?.currentTarget || event?.target;
-    if (!deleteBtn) {
-        console.error("Could not find delete button element");
-        return;
+// Show modal function
+function showDeleteModal(todoId) {
+  currentTodoIdToDelete = todoId;
+  document.getElementById('delete-modal').classList.remove('hidden');
+}
+
+// Hide modal function
+function hideDeleteModal() {
+  document.getElementById('delete-modal').classList.add('hidden');
+}
+
+// Updated deleteTodo function
+async function deleteTodo() {
+  const deleteBtn = document.querySelector(`button[data-todo-id="${currentTodoIdToDelete}"]`);
+  
+  try {
+    if (deleteBtn) {
+      deleteBtn.disabled = true;
+      deleteBtn.innerHTML = 'Deleting...';
     }
 
-    // Store original button state
-    const originalText = deleteBtn.textContent;
-    const originalDisabled = deleteBtn.disabled;
+    const response = await fetch(`/todo/${currentTodoIdToDelete}`, {
+      method: 'DELETE',
+      headers: { "Authorization": `Bearer ${token}` }
+    });
 
-    try {
-        // Confirm deletion
-        if (!confirm('Are you sure you want to delete this todo?')) {
-            return;
-        }
-
-        // Update button state
-        deleteBtn.disabled = true;
-        deleteBtn.textContent = 'Deleting...';
-
-        // API call
-        const response = await fetch(`/todo/${todoId}`, {
-            method: 'DELETE',
-            headers: { "Authorization": `Bearer ${token}` }
-        });
-
-        if (!response.ok) {
-            throw new Error(await response.text() || 'Delete failed');
-        }
-
-        showAlert('Todo deleted!', 'success');
-        fetchTodos();
-    } catch (error) {
-        console.error("Delete error:", error);
-        showAlert(error.message || 'Delete failed', "error");
-        
-        // Reset button if still in DOM
-        if (deleteBtn.isConnected) {
-            deleteBtn.disabled = originalDisabled;
-            deleteBtn.textContent = originalText;
-        }
+    if (!response.ok) throw new Error('Delete failed');
+    
+    showAlert('Todo deleted!', 'success');
+    fetchTodos();
+  } catch (error) {
+    showAlert(error.message, "error");
+  } finally {
+    hideDeleteModal();
+    if (deleteBtn && deleteBtn.isConnected) {
+      deleteBtn.disabled = false;
+      deleteBtn.innerHTML = 'Delete';
     }
+  }
 }
 
 async function fetchTodos() {
@@ -256,7 +258,9 @@ async function fetchTodos() {
                     <button onclick="toggleComplete('${todo.id}')" class="ml-2 px-3 py-1 ${todo.completed ? 'bg-green-600' : 'bg-gray-600'} text-white rounded-lg text-sm">
                         ${todo.completed ? 'Completed' : 'Mark Complete'}
                     </button>
-                    <button onclick="deleteTodo(event, '${todo.id}')" class="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">Delete
+                    <button onclick="showDeleteModal('${todo.id}')" 
+                            class="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">
+                        Delete
                     </button>
                 </div>`;
 

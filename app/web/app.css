@@ -2,3 +2,18 @@
 .line-through {
     transition: all 0.3s ease;
 }
+
+/* For smooth modal animation for delete dialog */
+#delete-modal {
+    transition: opacity 0.2s ease;
+  }
+  #delete-modal > div {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  #delete-modal:not(.hidden) > div {
+    animation: modalEnter 0.2s ease-out;
+  }
+  @keyframes modalEnter {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
