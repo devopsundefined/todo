@@ -10,25 +10,34 @@
 </head>
 <body class="flex flex-col items-center gap-4 p-6 bg-gray-100">
 
-    <!-- Login Form -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-80">
-        <h2 class="text-xl font-bold">Login</h2>
-        <input id="login-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2">
-        <input id="login-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2">
-        <button onclick="login()" class="bg-blue-500 text-white p-2 w-full rounded mt-4">Login</button>
+    <!-- Header -->
+    <div id="header" class="hidden w-full bg-blue-600 text-white p-4 flex justify-end pr-6 text-lg font-bold">
+        Hello, <span id="username" class="ml-2"></span>
     </div>
 
-    <!-- Register Form -->
-    <div class="bg-white p-6 rounded-lg shadow-md w-80">
-        <h2 class="text-xl font-bold">Register</h2>
-        <input id="register-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2">
-        <input id="register-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2">
-        <input id="register-email" type="email" placeholder="Email" class="w-full p-2 border rounded mt-2">
-        <button onclick="register()" class="bg-green-500 text-white p-2 w-full rounded mt-4">Register</button>
+    <!-- Auth Section (Login & Register side by side) -->
+    <div id="auth-section" class="flex gap-6">
+        
+        <!-- Login Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md w-80">
+            <h2 class="text-xl font-bold">Login</h2>
+            <input id="login-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2">
+            <input id="login-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2">
+            <button onclick="login()" class="bg-blue-500 text-white p-2 w-full rounded mt-4">Login</button>
+        </div>
+
+        <!-- Register Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md w-80">
+            <h2 class="text-xl font-bold">Register</h2>
+            <input id="register-username" type="text" placeholder="Username" class="w-full p-2 border rounded mt-2">
+            <input id="register-password" type="password" placeholder="Password" class="w-full p-2 border rounded mt-2">
+            <input id="register-email" type="email" placeholder="Email" class="w-full p-2 border rounded mt-2">
+            <button onclick="register()" class="bg-green-500 text-white p-2 w-full rounded mt-4">Register</button>
+        </div>
     </div>
 
     <!-- Todo Section (Only visible after login) -->
-    <div id="todo-section" class="hidden bg-white p-6 rounded-lg shadow-md w-80">
+    <div id="todo-section" class="hidden bg-white p-6 rounded-lg shadow-md w-96">
         <h2 class="text-xl font-bold">Add Todo</h2>
         <input id="todo-content" type="text" placeholder="Todo Content" class="w-full p-2 border rounded mt-2">
         <button onclick="addTodo()" class="bg-purple-500 text-white p-2 w-full rounded mt-4">Add Todo</button>
@@ -41,6 +50,5 @@
     <div id="alert-box" class="hidden fixed top-1/2 left-1/2 p-4 rounded-lg shadow-lg text-white opacity-0 transform -translate-x-1/2 -translate-y-1/2 scale-90 transition-all duration-300">
         <span id="alert-message"></span>
     </div>
-
 </body>
 </html>
