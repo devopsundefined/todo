@@ -115,7 +115,9 @@ async function register() {
 
 async function addTodo() {
     const content = document.getElementById("todo-content").value;
-    const date = document.getElementById("todo-date").value;
+    const due_date = document.getElementById("todo-date").value;
+    const created_at = new Date().toISOString();
+
 
     if (!content) {
         showAlert("Todo content cannot be empty", "error");
@@ -129,7 +131,7 @@ async function addTodo() {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({ content, due_date: date })
+            body: JSON.stringify({ content, due_date: due_date, created_at: created_at })
         });
 
         if (!response.ok) {
