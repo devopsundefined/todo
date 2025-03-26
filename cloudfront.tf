@@ -202,6 +202,30 @@ resource "aws_cloudfront_distribution" "todo" {
   }
 
   ordered_cache_behavior {
+    path_pattern     = "/todo/*/complete"
+    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "api"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Authorization"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    #response_headers_policy_id = aws_cloudfront_response_headers_policy.custom_headers_policy_html.id
+
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 0
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  ordered_cache_behavior {
     path_pattern     = "/todos"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["GET", "HEAD"]
