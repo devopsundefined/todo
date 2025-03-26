@@ -25,7 +25,8 @@ resource "aws_iam_policy" "policy_dynamodb_todos" {
                 "dynamodb:Scan",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
-                "dynamodb:UpdateItem"
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
             ],
             "Resource": "arn:aws:dynamodb:*:*:table/Todos"
         },
