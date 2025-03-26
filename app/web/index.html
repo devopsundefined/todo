@@ -11,8 +11,12 @@
 <body class="flex flex-col items-center gap-4 p-6 bg-gray-100">
 
     <!-- Header -->
-    <div id="header" class="hidden w-full bg-blue-600 text-white p-4 flex justify-end pr-6 text-lg font-bold">
-        Hello, <span id="username" class="ml-2"></span>
+    <div id="header" class="hidden w-full bg-blue-500 bg-opacity-80 text-white p-4 flex justify-between items-center pr-6 text-lg font-bold rounded-lg">
+        <span></span>
+        <div>
+            Hello, <span id="username" class="ml-2"></span>
+            <button onclick="logout()" class="ml-4 bg-red-500 text-white px-3 py-1 rounded">Logout</button>
+        </div>
     </div>
 
     <!-- Auth Section (Login & Register side by side) -->

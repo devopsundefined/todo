@@ -169,3 +169,11 @@ async function fetchTodos() {
     }
 }
 
+function logout() {
+    token = null; // Clear token
+    document.getElementById("todo-section").classList.add("hidden");
+    document.getElementById("header").classList.add("hidden");
+    document.getElementById("auth-section").classList.remove("hidden");
+    showAlert("Logged out successfully!", "success");
+}
+
