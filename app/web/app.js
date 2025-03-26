@@ -115,17 +115,33 @@ async function register() {
 
 async function addTodo() {
     const content = document.getElementById("todo-content").value;
+    const date = document.getElementById("todo-date").value;
+
+    if (!content) {
+        showAlert("Todo content cannot be empty", "error");
+        return;
+    }
 
     try {
-        await fetch("/todo", {
+        const response = await fetch("/todo", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({ content })
+            body: JSON.stringify({ content, due_date: date })
         });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            showAlert(errorData.error || "Failed to add todo", "error");
+            return;
+        }
+
+        document.getElementById("todo-content").value = "";
+        document.getElementById("todo-date").value = "";
         fetchTodos();
+        showAlert("Todo added successfully!", "success");
     } catch (error) {
         console.error("Failed to add todo", error);
         showAlert("Adding Todo failed. Please try again later.", "error");
@@ -160,7 +176,14 @@ async function fetchTodos() {
                     year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"
                 });
                 
-                li.innerHTML = `<span>${todo.content}</span> <span class='text-gray-500 text-sm'>${createdDate}</span>`;
+                // Inside the fetchTodos function, modify the li.innerHTML line:
+                li.innerHTML = `
+                <div>
+                    <span>${todo.content}</span>
+                    ${todo.due_date ? `<br><span class='text-red-500 text-sm'>Due: ${new Date(todo.due_date).toLocaleDateString()}</span>` : ''}
+                </div>
+                <span class='text-gray-500 text-sm'>${createdDate}</span>`;
+
                 todoList.appendChild(li);
             });
         } else {

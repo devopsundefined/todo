@@ -8,7 +8,7 @@
     <script type='text/javascript' src="app.js" defer></script>
     <script src="tailwind.min.js"></script>
 </head>
-<body class="flex flex-col items-center gap-4 p-6 bg-gray-100 bg-cover bg-center bg-no-repeat min-h-screen w-full" style="background-image: url('images/background.jpg'); background-size: 100% 100%;">
+<body class="flex flex-col items-center gap-4 p-6 bg-gray-100 bg-cover bg-center bg-no-repeat min-h-screen w-full" style="background-image: url('images/background.jpg'); background-size: cover; background-attachment: fixed;">
 
     <!-- Header -->
     <div id="header" class="hidden w-full bg-blue-500 bg-opacity-80 text-white p-4 flex justify-between items-center pr-6 text-lg font-bold rounded-lg">
@@ -45,9 +45,12 @@
     <!-- Todo Section (Only visible after login) -->
     <div id="todo-section" class="hidden bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
         <h2 class="text-xl font-bold">Add Todo</h2>
-        <input id="todo-content" type="text" placeholder="Todo Content" class="w-full p-2 border rounded mt-2">
+        <div class="flex gap-2">
+            <input id="todo-content" type="text" placeholder="Todo Content" class="flex-1 p-2 border rounded mt-2">
+            <input id="todo-date" type="date" class="p-2 border rounded mt-2">
+        </div>
         <button onclick="addTodo()" class="bg-purple-500 text-white p-2 rounded mt-4">Add Todo</button>
-
+    
         <h3 class="text-lg font-bold mt-4">Todos</h3>
         <ul id="todo-list" class="list-disc pl-5"></ul>
     </div>
