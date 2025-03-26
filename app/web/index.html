@@ -11,12 +11,16 @@
 <body class="flex flex-col items-center gap-4 p-6 bg-gray-100 bg-cover bg-center bg-no-repeat min-h-screen w-full" style="background-image: url('images/background.jpg'); background-size: cover; background-attachment: fixed;">
 
     <!-- Header -->
-    <div id="header" class="hidden fixed top-0 left-0 right-0 z-50 w-full bg-blue-500 bg-opacity-80 text-white p-4 flex justify-between items-center pr-6 text-lg font-bold rounded-b-lg">
+    <div id="header" class="hidden fixed top-0 left-0 right-0 z-50 w-full bg-blue-500 bg-opacity-80 text-white p-4 flex justify-between items-center pr-6 text-lg font-bold">
         <span></span>
         <div class="relative">
-            <button id="user-menu-button" class="bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg focus:outline-none">Hello, <span id="username" class="ml-2"></span></button>
-            <div id="user-menu" class="hidden absolute right-0 mt-2 w-32 bg-white text-black shadow-lg rounded-lg">
-                <button onclick="logout()" class="block w-full text-left px-4 py-2 hover:bg-gray-200">Logout</button>
+            <button id="user-menu-button" class="bg-white bg-opacity-20 text-white px-4 py-2 rounded-lg focus:outline-none">
+                Hello, <span id="username" class="ml-2"></span>
+            </button>
+            <div id="user-menu" class="hidden absolute right-0 mt-2 w-32 bg-white text-black shadow-lg rounded-lg overflow-hidden">
+                <button onclick="logout()" class="block w-full text-left px-4 py-2 hover:bg-gray-200 rounded-lg">
+                    Logout
+                </button>
             </div>
         </div>
     </div>
