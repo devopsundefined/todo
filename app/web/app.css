@@ -1,0 +1,4 @@
+/* For smooth strikethrough animation */
+.line-through {
+    transition: all 0.3s ease;
+}
