@@ -61,6 +61,10 @@ async function login() {
         if (data.token) {
             token = data.token;
             document.getElementById("todo-section").classList.remove("hidden");
+            document.getElementById("auth-section").classList.add("hidden");
+            document.getElementById("todo-section").classList.remove("hidden");
+            document.getElementById("header").classList.remove("hidden");
+            document.getElementById("username").textContent = username;
             fetchTodos();
         } else {
             showAlert("Failed getting auth token.", "error");
