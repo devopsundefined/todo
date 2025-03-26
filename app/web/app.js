@@ -172,39 +172,47 @@ async function addTodo() {
     }
 }
 
-async function deleteTodo(todoId, event) {
-    // Get the button element properly
-    const deleteBtn = event.currentTarget;
-    
-    // Confirm deletion
-    if (!confirm('Are you sure you want to delete this todo?')) {
+async function deleteTodo(event, todoId) {
+    // Safely get the button element
+    const deleteBtn = event?.currentTarget || event?.target;
+    if (!deleteBtn) {
+        console.error("Could not find delete button element");
         return;
     }
 
-    // Disable button and show loading state
-    deleteBtn.disabled = true;
+    // Store original button state
     const originalText = deleteBtn.textContent;
-    deleteBtn.textContent = 'Deleting...';
+    const originalDisabled = deleteBtn.disabled;
 
     try {
+        // Confirm deletion
+        if (!confirm('Are you sure you want to delete this todo?')) {
+            return;
+        }
+
+        // Update button state
+        deleteBtn.disabled = true;
+        deleteBtn.textContent = 'Deleting...';
+
+        // API call
         const response = await fetch(`/todo/${todoId}`, {
             method: 'DELETE',
             headers: { "Authorization": `Bearer ${token}` }
         });
 
         if (!response.ok) {
-            throw new Error('Failed to delete todo');
+            throw new Error(await response.text() || 'Delete failed');
         }
 
         showAlert('Todo deleted!', 'success');
         fetchTodos();
     } catch (error) {
         console.error("Delete error:", error);
-        showAlert(error.message, "error");
-    } finally {
-        // Reset button only if it still exists (in case DOM changed)
+        showAlert(error.message || 'Delete failed', "error");
+        
+        // Reset button if still in DOM
         if (deleteBtn.isConnected) {
-            deleteBtn.disabled = false;
+            deleteBtn.disabled = originalDisabled;
             deleteBtn.textContent = originalText;
         }
     }
@@ -248,8 +256,7 @@ async function fetchTodos() {
                     <button onclick="toggleComplete('${todo.id}')" class="ml-2 px-3 py-1 ${todo.completed ? 'bg-green-600' : 'bg-gray-600'} text-white rounded-lg text-sm">
                         ${todo.completed ? 'Completed' : 'Mark Complete'}
                     </button>
-                    <button onclick="deleteTodo('${todo.id}')" class="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">
-                        Delete
+                    <button onclick="deleteTodo(event, '${todo.id}')" class="ml-2 px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">Delete
                     </button>
                 </div>`;
 

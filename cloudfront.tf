@@ -51,7 +51,7 @@ resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_js" {
 }
 
 resource "aws_cloudfront_response_headers_policy" "custom_headers_policy_css" {
-  name = "custom-headers-policy-js"
+  name = "custom-headers-policy-css"
 
   custom_headers_config {
     items {
