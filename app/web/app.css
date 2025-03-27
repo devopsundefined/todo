@@ -29,3 +29,16 @@
     transform: scale(1);
     opacity: 1;
 }
+
+/* Loading overlay animation */
+#loading-overlay {
+    transition: opacity 0.3s ease;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}

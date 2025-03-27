@@ -61,10 +61,18 @@ async function toggleComplete(todoId) {
     }
 }
 
+function showLoading() {
+    document.getElementById('loading-overlay').classList.remove('hidden');
+}
+
+function hideLoading() {
+    document.getElementById('loading-overlay').classList.add('hidden');
+}
+
 async function login() {
     const username = document.getElementById("login-username").value;
     const password = document.getElementById("login-password").value;
-
+    showLoading();
     try {
         const response = await fetch("/login", {
             method: "POST",
@@ -105,6 +113,8 @@ async function login() {
     } catch (error) {
         showAlert("Failed logging in.", "error");
         console.error("Login failed", error);
+    } finally {
+        hideLoading();
     }
 }
 
@@ -112,7 +122,7 @@ async function register() {
     const username = document.getElementById("register-username").value;
     const password = document.getElementById("register-password").value;
     const email = document.getElementById("register-email").value;
-
+    showLoading();
     try {
         const response = await fetch("/register", {
             method: "POST",
@@ -140,6 +150,8 @@ async function register() {
     } catch (error) {
         console.error("Registration failed", error);
         showAlert("Registration failed. Please try again later.", "error");
+    } finally {
+        hideLoading();
     }
 }
 
@@ -152,7 +164,7 @@ async function addTodo() {
         showAlert("Todo content cannot be empty", "error");
         return;
     }
-
+    showLoading();
     try {
         const response = await fetch("/todo", {
             method: "POST",
@@ -176,6 +188,8 @@ async function addTodo() {
     } catch (error) {
         console.error("Failed to add todo", error);
         showAlert("Adding Todo failed. Please try again later.", "error");
+    } finally {
+        hideLoading();
     }
 }
 
@@ -193,7 +207,7 @@ function hideDeleteModal() {
 // Updated deleteTodo function
 async function deleteTodo() {
   const deleteBtn = document.querySelector(`button[data-todo-id="${currentTodoIdToDelete}"]`);
-  
+  showLoading();
   try {
     if (deleteBtn) {
       deleteBtn.disabled = true;
@@ -217,10 +231,12 @@ async function deleteTodo() {
       deleteBtn.disabled = false;
       deleteBtn.innerHTML = 'Delete';
     }
-  }
+    hideLoading();
+  } 
 }
 
 async function fetchTodos() {
+    showLoading();
     try {
         const response = await fetch("/todos", {
             headers: { "Authorization": `Bearer ${token}` }
@@ -275,6 +291,8 @@ async function fetchTodos() {
     } catch (error) {
         console.error("Failed to fetch todos", error);
         showAlert("Fetching Todos failed. Please try again later.", "error");
+    } finally {
+        hideLoading();
     }
 }
 
