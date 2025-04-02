@@ -10,14 +10,13 @@
 
 - AWS Cognito - User Management and Authentication
 
-![image](diagrams/diagram.png)
+<img src="diagrams/diagram.png" width="400">
 
 ### CloudFront has two origins
 - For serving the API calls from AWS Lambda
 - For serving static content
 
-
-![image](diagrams/cloudfront.png)
+<img src="diagrams/cloudfront.png" width="400">
 
 The data from the static content origin is cached in CloudFront to ensure stable application performance
 
@@ -25,7 +24,7 @@ The data from the static content origin is cached in CloudFront to ensure stable
 
 Backend API endpoints:<br>
 
-![image](diagrams/backend.png)
+<img src="diagrams/backend.png" width="400">
 
 ### [The frontend](app/web) uses [Tailwind-CSS](https://tailwindcss.com/)
 
