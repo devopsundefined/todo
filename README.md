@@ -82,6 +82,6 @@ terraform apply --auto-approve
 
 - That's it! You can now access your newly deployed app using the the CloudFront distribution url
 
-[You can also checkout the video tutorial for more details](https://www.youtube.com/watch?v=U5f2cnjkmzM)
+[You can also checkout the video tutorial for more details](https://youtu.be/mSM_nhP5ffo)
 
 ***Note:*** AWS Always free tier has some limitations in regards to the number of executed requests, used storage, etc. <br>It is always a good idea to set a [Billing alerting](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html) to track your AWS services usage. 
