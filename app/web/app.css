@@ -1,0 +1,44 @@
+/* For smooth strikethrough animation */
+.line-through {
+    transition: all 0.3s ease;
+}
+
+/* For smooth modal animation for delete dialog */
+#delete-modal {
+    transition: opacity 0.2s ease;
+  }
+  #delete-modal > div {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  #delete-modal:not(.hidden) > div {
+    animation: modalEnter 0.2s ease-out;
+  }
+  @keyframes modalEnter {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /*smooth animation for logout button*/
+  #user-menu {
+    transition: all 0.2s ease;
+    transform-origin: top right;
+    transform: scale(0.95);
+    opacity: 0;
+}
+#user-menu:not(.hidden) {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Loading overlay animation */
+#loading-overlay {
+    transition: opacity 0.3s ease;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
