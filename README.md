@@ -16,11 +16,15 @@
 - For serving the API calls from AWS Lambda
 - For serving static content
 
+
 ![image](diagrams/cloudfront.png)
+
+The data from the static content origin is cached in CloudFront to ensure stable application performance
 
 ### [The backend](app/api/index.js) is nodejs-based
 
-Backend API endpoints:
+Backend API endpoints:<br>
+
 ![image](diagrams/backend.png)
 
 ### [The frontend](app/web) uses [Tailwind-CSS](https://tailwindcss.com/)
@@ -54,7 +58,7 @@ set AWS_SECRET_ACCESS_KEY=<aws_secret_access_key>
 set AWS_DEFAULT_REGION=<aws_region>
 ```
 
-- Install npm dependencies
+- Install npm dependencies for the backend nodejs application
 ```
 cd todo/app/api
 npm install
